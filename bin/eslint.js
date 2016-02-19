@@ -29,11 +29,30 @@ if (debug) {
 
 // now we can safely include the other modules that use debug
 var concat = require("concat-stream"),
-    cli = require("../lib/cli");
+    cli = require("../lib/cli"),
+    path = require("path"),
+    fs = require("fs");
 
 //------------------------------------------------------------------------------
 // Execution
 //------------------------------------------------------------------------------
+
+process.on("uncaughtException", function(err){
+    // lazy load
+    var lodash = require("lodash");
+
+    var result = err.message.match(/Failed to load plugin ([a-z\-]+):/i);
+    if (result) {
+        var template = lodash.template(fs.readFileSync(path.resolve(__dirname, "../messages/plugin-missing.txt"), "utf-8"));
+        console.log("\nOops! Something went wrong! :(");
+        console.log("\n" + template({ pluginName: result[1] }));
+    } else {
+        console.log(err.message);
+        console.log(err.stack);
+    }
+
+    process.exit(1);
+});
 
 if (useStdIn) {
     process.stdin.pipe(concat({ encoding: "string" }, function(text) {
