@@ -220,14 +220,14 @@ ruleTester.run("indent", rule, {
             "};",
             options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
         },
-        // {
-        //     code:
-        //     "arr.forEach(function(data) {\n" +
-        //     "  otherdata.forEach(function(zero) {\n" +
-        //     "    console.log('hi');\n" +
-        //     "  }) });",
-        //     options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
-        // },
+        {
+            code:
+            "arr.forEach(function(data) {\n" +
+            "  otherdata.forEach(function(zero) {\n" +
+            "    console.log('hi');\n" +
+            "  }) });",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
         // {
         //     code:
         //     "a = [\n" +
